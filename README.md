@@ -1,6 +1,6 @@
 
 
-## 模型下载
+## Model download
 
 ```bash
 python model_download.py
@@ -64,7 +64,7 @@ small models
 
 ```bash
 
-# Meta-Llama-3-8B-Instruct 进行推理
+# Meta-Llama-3-8B-Instruct
 export TOP_K=8
 export OPENAI_API_KEY=123456
 export OPENAI_API_BASE="http://localhost:8000/v1"
@@ -73,7 +73,7 @@ nohup python -u tot/run.py --task game24 --file 24_test.csv --task_start_index 0
 
 
 
-# ./resources/Qwen2___5-1___5B-Instruct  进行推理
+# ./resources/Qwen2___5-1___5B-Instruct  start reasoning
 export TOP_K=8
 export OPENAI_API_KEY=123456
 export OPENAI_API_BASE="http://localhost:8000/v1"
@@ -81,7 +81,7 @@ export model_name=./resources/Qwen2___5-1___5B-Instruct
 nohup python -u tot/run.py --task game24 --file 24_test.csv --task_start_index 0 --task_end_index 25 --method_generate propose --method_evaluate value --method_select greedy --n_evaluate_sample 5 --n_select_sample 5 --backend ${model_name} --result_dir experiments/run_vanilla_2/ > run_vanilla_2.log & 
 
 
-# ./resources/Qwen2___5-7B-Instruct  进行推理
+# ./resources/Qwen2___5-7B-Instruct 
 export TOP_K=8
 export OPENAI_API_KEY=123456
 export OPENAI_API_BASE="http://localhost:8000/v1"
@@ -97,7 +97,7 @@ nohup python -u tot/run.py --task game24 --file 24_test.csv --task_start_index 0
 
 ```bash
 
-# 下载编码模型
+# Download embedding model
 # python src/model_download.py
 
 cd /root/autodl-fs
@@ -108,12 +108,12 @@ cp -r resources/Qwen/Qwen2___5-7B-Instruct/ /root/autodl-tmp/tot_icl/resources
 cd /root/autodl-tmp/tot_icl
 
 
-# 收集demo数据
+# Collect demo data
 python src/demo_data_prepare/collect_proposal_data.py
 python src/demo_data_prepare/collect_value_data.py
 
 
-# 先编码demo数据为向量
+# Embedding
 python src/ret_icl/encode_data.py src/demo_data_prepare/logs/list_proposal_demos.json ./resources/BAAI/bge-base-en-v1___5 src/demo_data_prepare/logs/proposal_demos.npy
 
 python src/ret_icl/encode_data.py src/demo_data_prepare/logs/list_value_demos.json ./resources/BAAI/bge-base-en-v1___5 src/demo_data_prepare/logs/value_demos.npy
@@ -122,7 +122,7 @@ python src/ret_icl/encode_data.py src/demo_data_prepare/logs/list_value_demos.js
 
 
 
-# Meta-Llama-3-8B-Instruct 进行推理
+# Meta-Llama-3-8B-Instruct to REASONING
 export TOP_K=8
 export OPENAI_API_KEY=123456
 export OPENAI_API_BASE="http://localhost:8000/v1"
@@ -131,7 +131,7 @@ nohup python -u src/ret_icl/run_bfs.py --task game24 --file 24_test.csv --task_s
 
 
 
-# ./resources/Qwen2___5-1___5B-Instruct  进行推理
+# ./resources/Qwen2___5-1___5B-Instruct  
 export TOP_K=8
 export OPENAI_API_KEY=123456
 export OPENAI_API_BASE="http://localhost:8000/v1"
@@ -140,7 +140,7 @@ nohup python -u src/ret_icl/run_bfs.py --task game24 --file 24_test.csv --task_s
 
 
 
-# ./resources/Qwen2___5-7B-Instruct  进行推理
+# ./resources/Qwen2___5-7B-Instruct  
 export TOP_K=8
 export OPENAI_API_KEY=123456
 export OPENAI_API_BASE="http://localhost:8000/v1"
@@ -160,7 +160,7 @@ nohup python -u src/ret_icl/run_bfs.py --task game24 --file 24_test.csv --task_s
 
 ```bash
 
-# 训练demo reranker 
+# Train demo reranker 
 # for propose
 export TOP_K=32
 export model_name=./resources/Qwen2___5-1___5B-Instruct 
@@ -168,7 +168,7 @@ nohup python -u src/ret_icl_ft/run_reranker_ft.py --output_dir ./experiments/rer
 
 best_test_acc:  0.7633623458666409
 
-使用 bge embedding model？
+use bge embedding model？
 python -u src/ret_icl_ft/run_reranker_ft.py --output_dir ./experiments/reranker_run_1/ --demo_data_path ./src/demo_data_prepare/logs/list_proposal_demos.json --embed_model_path ./resources/bge-base-en-v1___5 --bert_model_path ./resources/bge-base-en-v1___5  --learning_rate 10e-4 --gradient_accumulation_steps 2 --warmup_steps 50 --task_type propose --num_epochs 10 
 
 best_test_acc:  0.9886383249004207
@@ -189,8 +189,8 @@ best_test_acc:  1.0
 ######################
 # reranker inference
 
-# 在demo reranker的帮助下，进行demo选择
-# ./resources/Qwen2___5-1___5B-Instruct  进行推理
+# Choose demo with the help of DR
+# ./resources/Qwen2___5-1___5B-Instruct 
 export TOP_K=32
 export TOP_K_RERANK=8
 export OPENAI_API_KEY=123456
