@@ -19,7 +19,7 @@ nohup vllm serve /root/autodl-tmp/ShapLoRA/resources/LLM-Research/Meta-Llama-3.1
 
 nohup vllm serve /root/autodl-tmp/tot_icl/resources/Meta-Llama-3-8B-Instruct --gpu_memory_utilization 0.9 --max_model_len 8000 > vllm_log.log & 
 
-# LLM 起服务
+# LLM Server
 nohup vllm serve ./resources/Qwen2___5-1___5B-Instruct --gpu_memory_utilization 0.75 --max_model_len 8000 > vllm_log.log & 
 
 nohup vllm serve ./resources/Qwen2___5-7B-Instruct --gpu_memory_utilization 0.8 --max_model_len 8000 > vllm_log.log & 
@@ -207,7 +207,7 @@ nohup python -u src/ret_icl_ft/run_bfs.py --task game24 --file 24_test.csv --tas
 
 
 
-7B 模型
+7B model
 
 ```bash
 
@@ -253,10 +253,10 @@ nohup python -u src/ret_icl_ft/run_reranker_ft.py --output_dir ./experiments/rer
 
 
 ######################
-# reranker 应用
+# reranker 
 
-# 在demo reranker的帮助下，进行demo选择
-# ./resources/Qwen2___5-1___5B-Instruct  进行推理
+# use DR to choose demo
+# ./resources/Qwen2___5-1___5B-Instruct  
 export TOP_K=32
 export TOP_K_RERANK=8
 export OPENAI_API_KEY=123456
